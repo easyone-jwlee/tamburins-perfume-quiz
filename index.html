@@ -72,9 +72,23 @@
         }
     </style>
 </head>
-<body class="flex flex-col items-center min-h-screen text-gray-800 py-10 px-4 relative">
+<body class="flex flex-col items-center min-h-screen text-gray-800 py-10 px-4">
 
-    <div class="w-full max-w-md">
+    <!-- 1. 시작 화면 (초기 노출) -->
+    <div id="start-screen" class="w-full max-w-md flex flex-col items-center mt-4">
+        <div class="text-center mb-8">
+            <h1 class="text-2xl font-bold text-gray-800 tracking-tight">The Art of Scent : TAMBURINS</h1>
+        </div>
+        <div class="polaroid-frame mx-auto w-4/5 max-w-[280px] aspect-square mb-10 bg-white">
+            <img src="0.image.png" alt="TAMBURINS Logo" class="w-full h-full object-contain">
+        </div>
+        <button id="start-btn" class="w-full max-w-[200px] bg-gray-900 hover:bg-black text-white font-bold py-3 px-6 rounded-full shadow-lg transition-transform active:scale-95">
+            Start
+        </button>
+    </div>
+
+    <!-- 2. 메인 퀴즈 화면 (처음엔 hidden) -->
+    <div id="quiz-screen" class="hidden w-full max-w-md">
         <div class="text-center mb-6">
             <h1 class="text-2xl font-bold text-gray-800 tracking-tight">The Art of Scent : TAMBURINS</h1>
             <p id="progress-text" class="text-gray-600 mt-1 text-sm font-medium">Note 1 / 5</p>
@@ -96,15 +110,13 @@
         </div>
     </div>
 
-    <!-- UI로 만든 상세 설명 팝업(모달) -->
+    <!-- UI 상세 설명 팝업(모달) -->
     <div id="detail-modal" class="hidden fixed inset-0 bg-black bg-opacity-75 z-50 flex justify-center items-center p-4">
         <div class="bg-white rounded-xl max-w-md w-full max-h-[90vh] flex flex-col overflow-hidden modal-animate shadow-2xl">
-            <!-- 헤더 -->
             <div class="px-4 py-3 border-b flex justify-between items-center bg-gray-50">
                 <span id="modal-status-title" class="font-bold text-lg">상세 정보</span>
             </div>
             
-            <!-- 정보 영역 (스크롤) -->
             <div class="overflow-y-auto p-6 flex-grow bg-white text-left">
                 <h2 id="ui-title" class="text-3xl font-bold text-gray-900 tracking-tighter">CHAMO</h2>
                 <h3 id="ui-subtitle" class="text-md font-medium text-gray-500 mb-4">카모</h3>
@@ -118,12 +130,9 @@
                 </div>
 
                 <h4 class="font-bold text-sm text-gray-900 mb-3 border-b pb-1">Main Accords</h4>
-                <div id="ui-accords" class="flex flex-wrap gap-2">
-                    <!-- 어코드 뱃지 생성 -->
-                </div>
+                <div id="ui-accords" class="flex flex-wrap gap-2"></div>
             </div>
 
-            <!-- 하단 버튼 -->
             <div class="p-4 border-t bg-gray-50">
                 <button id="modal-next-btn" class="w-full bg-gray-900 hover:bg-black text-white font-bold py-3 px-6 rounded-full shadow-lg transition-transform active:scale-95">
                     Next
@@ -132,8 +141,8 @@
         </div>
     </div>
 
-    <!-- 우측 하단 워터마크 -->
-    <div class="absolute bottom-4 right-4 text-right text-gray-500 text-xs opacity-70">
+    <!-- 스크롤 시에도 화면 우측 하단에 고정되는 워터마크 (fixed, z-10 적용) -->
+    <div class="fixed bottom-4 right-4 text-right text-gray-500 text-xs opacity-70 z-10 pointer-events-none">
         <p class="font-bold">이지엽</p>
         <p>tam1532@tamburins.com</p>
         <p>TAM_서울_DS_현대_무역</p>
@@ -202,6 +211,9 @@
         let currentQuestionIndex = 0;
         let score = 0;
 
+        const startScreen = document.getElementById('start-screen');
+        const quizScreen = document.getElementById('quiz-screen');
+        const startBtn = document.getElementById('start-btn');
         const perfumeImage = document.getElementById('perfume-image');
         const optionsContainer = document.getElementById('options-container');
         const feedbackText = document.getElementById('feedback-text');
@@ -211,6 +223,19 @@
         const detailModal = document.getElementById('detail-modal');
         const modalStatusTitle = document.getElementById('modal-status-title');
         const modalNextBtn = document.getElementById('modal-next-btn');
+
+        // 시작 버튼 클릭 시
+        startBtn.addEventListener('click', () => {
+            startScreen.classList.add('hidden');
+            quizScreen.classList.remove('hidden');
+            
+            // 문제와 보기 섞고 시작
+            quizData.sort(() => Math.random() - 0.5);
+            quizData.forEach(question => {
+                question.options.sort(() => Math.random() - 0.5);
+            });
+            loadQuestion();
+        });
 
         function loadQuestion() {
             feedbackText.textContent = '';
@@ -257,7 +282,6 @@
                 });
             }
 
-            // 모달에 텍스트 데이터 주입
             setTimeout(() => {
                 document.getElementById('ui-title').textContent = currentQuestion.details.title;
                 document.getElementById('ui-subtitle').textContent = currentQuestion.details.subtitle;
@@ -310,14 +334,6 @@
 
             loadQuestion(); 
         });
-
-        window.onload = () => {
-            quizData.sort(() => Math.random() - 0.5);
-            quizData.forEach(question => {
-                question.options.sort(() => Math.random() - 0.5);
-            });
-            loadQuestion();
-        };
     </script>
 </body>
 </html>
