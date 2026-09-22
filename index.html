@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>향수 노트 퀴즈</title>
+    <title>The Art of Scent : TAMBURINS</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
@@ -76,8 +76,8 @@
 
     <div class="w-full max-w-md">
         <div class="text-center mb-6">
-            <h1 class="text-2xl font-bold text-gray-800 tracking-tight">향수 노트 맞추기</h1>
-            <p id="progress-text" class="text-gray-600 mt-1 text-sm font-medium">문제 1 / 5</p>
+            <h1 class="text-2xl font-bold text-gray-800 tracking-tight">The Art of Scent : TAMBURINS</h1>
+            <p id="progress-text" class="text-gray-600 mt-1 text-sm font-medium">Note 1 / 5</p>
         </div>
 
         <div class="polaroid-frame mx-auto w-4/5 max-w-[280px] aspect-square mb-10 bg-white">
@@ -126,7 +126,7 @@
             <!-- 하단 버튼 -->
             <div class="p-4 border-t bg-gray-50">
                 <button id="modal-next-btn" class="w-full bg-gray-900 hover:bg-black text-white font-bold py-3 px-6 rounded-full shadow-lg transition-transform active:scale-95">
-                    다음 ->
+                    Next
                 </button>
             </div>
         </div>
@@ -134,9 +134,10 @@
 
     <!-- 우측 하단 워터마크 -->
     <div class="absolute bottom-4 right-4 text-right text-gray-500 text-xs opacity-70">
-        <p class="font-bold">Created by J.W. Lee</p>
-        <p>easyone-jwlee@email.com</p>
-        <p>Frankfurt Store, Staff</p>
+        <p class="font-bold">이지엽</p>
+        <p>tam1532@tamburins.com</p>
+        <p>TAM_서울_DS_현대_무역</p>
+        <p>스토어브랜딩팀</p>
     </div>
 
     <script>
@@ -218,7 +219,7 @@
             
             const currentQuestion = quizData[currentQuestionIndex];
             perfumeImage.src = currentQuestion.image;
-            progressText.textContent = `문제 ${currentQuestionIndex + 1} / ${quizData.length}`;
+            progressText.textContent = `Note ${currentQuestionIndex + 1} / ${quizData.length}`;
 
             currentQuestion.options.forEach(option => {
                 const button = document.createElement('button');
@@ -236,17 +237,17 @@
             allButtons.forEach(btn => btn.disabled = true);
 
             if (isCorrect) {
-                feedbackText.textContent = '정답입니다!';
+                feedbackText.textContent = 'Correct!';
                 feedbackText.className = 'text-2xl font-bold h-8 mb-4 text-green-600';
                 buttonElement.classList.add('correct');
-                modalStatusTitle.textContent = "정답! 상세 정보를 확인하세요.";
+                modalStatusTitle.textContent = "Correct! Review the details.";
                 modalStatusTitle.className = "font-bold text-green-600 text-lg";
                 score++;
             } else {
-                feedbackText.textContent = '오답입니다!';
+                feedbackText.textContent = 'Incorrect!';
                 feedbackText.className = 'text-2xl font-bold h-8 mb-4 text-red-500';
                 buttonElement.classList.add('incorrect');
-                modalStatusTitle.textContent = "오답! 상세 정보를 확인하세요.";
+                modalStatusTitle.textContent = "Incorrect! Review the details.";
                 modalStatusTitle.className = "font-bold text-red-500 text-lg";
                 
                 allButtons.forEach(btn => {
@@ -275,9 +276,9 @@
                 });
                 
                 if (currentQuestionIndex === quizData.length - 1) {
-                    modalNextBtn.textContent = "결과 보기";
+                    modalNextBtn.textContent = "Result";
                 } else {
-                    modalNextBtn.textContent = "다음 ->";
+                    modalNextBtn.textContent = "Next";
                 }
                 
                 detailModal.classList.remove('hidden');
@@ -291,7 +292,7 @@
                 currentQuestionIndex++;
                 loadQuestion();
             } else {
-                feedbackText.textContent = `퀴즈 완료! (${score}/${quizData.length} 정답)`;
+                feedbackText.textContent = `Final Score: ${score} / ${quizData.length}`;
                 feedbackText.className = 'text-2xl font-bold h-8 mb-4 text-blue-600';
                 restartBtn.classList.remove('hidden');
             }
