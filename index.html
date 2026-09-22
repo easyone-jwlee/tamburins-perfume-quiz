@@ -1,19 +1,18 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Perfume Notes Training</title>
+    <title>향수 노트 퀴즈</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
         body {
-            font-family: 'Noto Sans', sans-serif;
-            background-color: #e1ebd1; /* Light pastel green background */
-            -webkit-tap-highlight-color: transparent; /* Remove tap highlight on mobile */
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: #e1ebd1; 
+            -webkit-tap-highlight-color: transparent; 
         }
 
-        /* Polaroid style image frame */
         .polaroid-frame {
             background-color: #fcfcfc;
             padding: 16px;
@@ -24,10 +23,9 @@
             align-items: center;
         }
 
-        /* Beveled nameplate style for buttons */
         .nameplate-btn {
             background-color: #ffffff;
-            border: 8px solid #f2f4ee; /* Thick off-white border */
+            border: 8px solid #f2f4ee; 
             box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.05);
             color: #333333;
             font-weight: 500;
@@ -42,24 +40,21 @@
             word-break: keep-all;
         }
 
-        /* Active click effect for buttons */
         .nameplate-btn:active:not(:disabled) {
             transform: scale(0.96);
             box-shadow: inset 1px 2px 4px rgba(0, 0, 0, 0.1);
         }
 
-        /* Correct answer style */
         .nameplate-btn.correct {
-            border-color: #4ade80 !important; /* Tailwind green-400 */
-            background-color: #f0fdf4; /* Tailwind green-50 */
+            border-color: #4ade80; 
+            background-color: #f0fdf4; 
             color: #166534;
             font-weight: 700;
         }
 
-        /* Incorrect answer style */
         .nameplate-btn.incorrect {
-            border-color: #f87171 !important; /* Tailwind red-400 */
-            background-color: #fef2f2; /* Tailwind red-50 */
+            border-color: #f87171; 
+            background-color: #fef2f2; 
             color: #991b1b;
             font-weight: 700;
         }
@@ -67,132 +62,169 @@
         .nameplate-btn:disabled {
             cursor: default;
         }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        .modal-animate {
+            animation: fadeIn 0.3s ease-out forwards;
+        }
     </style>
 </head>
 <body class="flex flex-col items-center min-h-screen text-gray-800 py-10 px-4 relative">
 
-    <!-- Start Screen -->
-    <div id="start-screen" class="w-full max-w-md flex flex-col items-center justify-center min-h-[80vh]">
-        <h1 class="text-3xl font-bold text-gray-800 tracking-tight mb-8 text-center">Perfume Notes<br>Training</h1>
-        
-        <!-- Logo Image Section -->
-        <div class="polaroid-frame mx-auto w-4/5 max-w-[280px] aspect-square mb-12">
-            <img src="image_112062.png" alt="Tamburins Logo" class="w-full h-full object-contain" onerror="this.src='https://placehold.co/400x400/ffffff/333333?text=TAMBURINS'">
-        </div>
-
-        <button id="start-btn" class="w-full max-w-[250px] bg-gray-800 hover:bg-gray-900 text-white font-bold py-4 px-6 rounded-full shadow-lg transition-transform active:scale-95 text-lg">
-            Start Quiz
-        </button>
-    </div>
-
-    <!-- Quiz Screen (Hidden Initially) -->
-    <div id="quiz-screen" class="w-full max-w-md hidden">
-        
-        <!-- Header / Progress -->
+    <div class="w-full max-w-md">
         <div class="text-center mb-6">
-            <h1 class="text-2xl font-bold text-gray-800 tracking-tight">Identify the Note</h1>
-            <p id="progress-text" class="text-gray-600 mt-1 text-sm font-medium">Question 1 / 3</p>
+            <h1 class="text-2xl font-bold text-gray-800 tracking-tight">향수 노트 맞추기</h1>
+            <p id="progress-text" class="text-gray-600 mt-1 text-sm font-medium">문제 1 / 5</p>
         </div>
 
-        <!-- Image Section -->
-        <div class="polaroid-frame mx-auto w-4/5 max-w-[280px] aspect-square mb-10">
+        <div class="polaroid-frame mx-auto w-4/5 max-w-[280px] aspect-square mb-10 bg-white">
             <img id="perfume-image" src="" alt="Perfume" class="w-full h-full object-contain">
         </div>
 
-        <!-- Options Grid (2x3) -->
         <div id="options-container" class="grid grid-cols-2 gap-x-4 gap-y-5">
-            <!-- Buttons will be injected here via JavaScript -->
+            <!-- 버튼 자동 생성 -->
         </div>
 
-        <!-- Feedback & Navigation Section -->
         <div class="mt-8 flex flex-col items-center min-h-[100px]">
-            <!-- Feedback Text (Correct/Incorrect) -->
             <div id="feedback-text" class="text-2xl font-bold h-8 mb-4 transition-opacity duration-300"></div>
-            
-            <!-- Next Button -->
-            <button id="next-btn" class="hidden w-full max-w-[200px] bg-gray-800 hover:bg-gray-900 text-white font-bold py-3 px-6 rounded-full shadow-lg transition-transform active:scale-95">
-                Next
-            </button>
-            
-            <!-- Restart Button -->
             <button id="restart-btn" class="hidden w-full max-w-[200px] bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-full shadow-lg transition-transform active:scale-95">
-                Restart
+                다시 시작하기
             </button>
         </div>
     </div>
 
-    <!-- Creator Info Watermark (Discreet, bottom right) -->
-    <div class="fixed bottom-2 right-2 text-[10px] text-gray-700 opacity-40 text-right pointer-events-none md:text-xs">
-        Name: [이지엽] | Email: [tam1532@tamburins.com] <br> 
-        Store: [TAM_서울_DS_현대_무역] | Team: [스토어브랜딩팀]
+    <!-- UI로 만든 상세 설명 팝업(모달) -->
+    <div id="detail-modal" class="hidden fixed inset-0 bg-black bg-opacity-75 z-50 flex justify-center items-center p-4">
+        <div class="bg-white rounded-xl max-w-md w-full max-h-[90vh] flex flex-col overflow-hidden modal-animate shadow-2xl">
+            <!-- 헤더 -->
+            <div class="px-4 py-3 border-b flex justify-between items-center bg-gray-50">
+                <span id="modal-status-title" class="font-bold text-lg">상세 정보</span>
+            </div>
+            
+            <!-- 정보 영역 (스크롤) -->
+            <div class="overflow-y-auto p-6 flex-grow bg-white text-left">
+                <h2 id="ui-title" class="text-3xl font-bold text-gray-900 tracking-tighter">CHAMO</h2>
+                <h3 id="ui-subtitle" class="text-md font-medium text-gray-500 mb-4">카모</h3>
+                <p id="ui-desc" class="text-sm text-gray-700 leading-relaxed mb-6 break-keep"></p>
+
+                <h4 class="font-bold text-sm text-gray-900 mb-3 border-b pb-1">Olfactory Pyramid</h4>
+                <div class="flex flex-col gap-2 mb-6 text-sm bg-gray-50 p-4 rounded-lg">
+                    <div class="flex"><span class="font-bold w-12 text-gray-400">TOP</span><span id="ui-top" class="text-gray-800"></span></div>
+                    <div class="flex"><span class="font-bold w-12 text-gray-400">MID</span><span id="ui-mid" class="text-gray-800"></span></div>
+                    <div class="flex"><span class="font-bold w-12 text-gray-400">BASE</span><span id="ui-base" class="text-gray-800"></span></div>
+                </div>
+
+                <h4 class="font-bold text-sm text-gray-900 mb-3 border-b pb-1">Main Accords</h4>
+                <div id="ui-accords" class="flex flex-wrap gap-2">
+                    <!-- 어코드 뱃지 생성 -->
+                </div>
+            </div>
+
+            <!-- 하단 버튼 -->
+            <div class="p-4 border-t bg-gray-50">
+                <button id="modal-next-btn" class="w-full bg-gray-900 hover:bg-black text-white font-bold py-3 px-6 rounded-full shadow-lg transition-transform active:scale-95">
+                    다음 ->
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 우측 하단 워터마크 -->
+    <div class="absolute bottom-4 right-4 text-right text-gray-500 text-xs opacity-70">
+        <p class="font-bold">Created by J.W. Lee</p>
+        <p>easyone-jwlee@email.com</p>
+        <p>Frankfurt Store, Staff</p>
     </div>
 
     <script>
-        // Quiz Data Array (English)
         const quizData = [
             {
-                image: "01.chamo.png", // The actual perfume bottle image you shared
-                options: ["Bergamot", "Sandalwood", "Patchouli", "Fig", "Chamomile", "Cedarwood"],
-                answer: "Chamomile"
+                image: "01.chamo.png", 
+                options: ["Chamomile", "Bergamot", "White Tulip", "Oud", "White Champagne", "Raspberry"],
+                answer: "Chamomile",
+                details: {
+                    title: "CHAMO", subtitle: "카모",
+                    desc: "꿀처럼 진득하고 달콤한 카모마일과 쌉쌀한 클라리세이지의 허벌한 향취가 오묘한 조화를 이루어 중독성 있는 향을 선사합니다. 자칫 차갑게 느껴질 수 있는 축축한 이끼의 느낌을 우아하고 부드러운 나무결의 블론드우드와 따뜻한 머스크로 감싸주어 당신의 지친 마음에 특별하고 작은 위안을 선물합니다.",
+                    top: "Chamomile, Clarysage", mid: "Cypriol, Water", base: "Blond wood, Amber, Musk",
+                    accords: ["Herbal", "Musk"]
+                }
             },
             {
-                image: "https://images.unsplash.com/photo-1588405748880-12d1d2a59f75?auto=format&fit=crop&w=400&q=80",
-                options: ["Rose", "Jasmine", "Tuberose", "Lily", "Peony", "Iris"],
-                answer: "Rose"
+                image: "02.berga_sandal.png",
+                options: ["Bergamot", "Clarysage", "Green Apple", "Lavender", "Black Tea", "Peach"],
+                answer: "Bergamot",
+                details: {
+                    title: "BERGA SANDAL", subtitle: "버가샌달",
+                    desc: "지중해의 푸릇한 기운을 받고 자란 베르가못의 청량한 향에 라임, 카다멈의 신선하고 쌉싸래한 향이 더해져 따사로운 햇빛 아래 서서히 익어가는 청귤을 떠오르게 합니다. 뒤이어 샌달우드가 그려내는 부드러운 곡선의 잔향은 주위에 은은하게 머물며 햇살 가득한 여름날의 따뜻한 기억을 그려냅니다.",
+                    top: "Bergamot, Lime, Cardamom", mid: "Cedar atlas, Cypriol, Cucumber", base: "Sandalwood, Leather, Amyris",
+                    accords: ["Citrus", "Woody"]
+                }
             },
             {
-                image: "https://images.unsplash.com/photo-1595532542520-50cb05cb22d0?auto=format&fit=crop&w=400&q=80",
-                options: ["Lemon", "Neroli", "Orange Blossom", "Tangerine", "Grapefruit", "Yuzu"],
-                answer: "Neroli"
+                image: "03.lale.png",
+                options: ["White Tulip", "Chamomile", "Lime", "Oud", "White Champagne", "Cardamom"],
+                answer: "White Tulip",
+                details: {
+                    title: "LALE", subtitle: "라레",
+                    desc: "튤립의 첫 이름을 의미하는 라레는 새벽의 이슬을 머금은 청초한 푸른 사과를 한 입 베어 문 듯 청량하면서도 절제된 달콤함을 시작으로, 잔잔한 그린 플로럴의 향취가 화이트 튤립의 싱그러운 푸른 잎사귀를 떠오르게 합니다. 진득한 샌달우드에 스파이시한 무드의 레더와 미모사가 더해져 깊고 은은한 여운을 남깁니다.",
+                    top: "Green Apple, Eucalyptus, Bergamot", mid: "White Tulip, Mimosa, Marine", base: "Sandalwood, Leather, Musk, Coconut",
+                    accords: ["Green", "Floral"]
+                }
+            },
+            {
+                image: "04.unknown_oud.png",
+                options: ["Oud", "Bergamot", "Green Apple", "White Champagne", "Black Tea", "Water"],
+                answer: "Oud",
+                details: {
+                    title: "UNKNOWN OUD", subtitle: "언노운오드",
+                    desc: "유칼립투스의 상쾌함으로 시작한 향은 진득한 라즈베리 시럽을 한방울 떨어뜨린 듯한 달콤함이 함께 어우러져 더욱 풍성해집니다. 묵직한 침향나무에서 오는 잔향의 젖은 흙과 그을린 나무냄새는 깊은 숲속에서 홀로 타오르고 남은 불의 흔적을 떠오르게 합니다.",
+                    top: "Eucalyptus, Lavender", mid: "Raspberry, Leather", base: "Oud(Agarwood), Patchouli, Amber",
+                    accords: ["Balsamic", "Woody"]
+                }
+            },
+            {
+                image: "05.white_darjeeling.png",
+                options: ["White Champagne", "Chamomile", "Lime", "White Tulip", "Raspberry", "Eucalyptus"],
+                answer: "White Champagne",
+                details: {
+                    title: "WHITE DARJEELING", subtitle: "화이트다즐링",
+                    desc: "화이트 샴페인의 섬세한 거품과 달달한 과일향에 쌉쌀한 다즐링 차 향이 풍성하고 조화롭게 어우러져 찻잔 속에서 추는 우아한 향의 춤의 향연을 선사합니다. 코끝에서부터 전해지는 크리미한 머스크와 샌달우드가 부드러운 잔향을 오래도록 느끼게 해줍니다.",
+                    top: "White Champagne", mid: "Black Tea, Peach", base: "Musk, Sandalwood",
+                    accords: ["Fruity", "Tea"]
+                }
             }
         ];
 
         let currentQuestionIndex = 0;
         let score = 0;
 
-        // DOM Elements
-        const startScreen = document.getElementById('start-screen');
-        const quizScreen = document.getElementById('quiz-screen');
-        const startBtn = document.getElementById('start-btn');
-        
         const perfumeImage = document.getElementById('perfume-image');
         const optionsContainer = document.getElementById('options-container');
         const feedbackText = document.getElementById('feedback-text');
-        const nextBtn = document.getElementById('next-btn');
         const restartBtn = document.getElementById('restart-btn');
         const progressText = document.getElementById('progress-text');
-
-        function startQuiz() {
-            startScreen.classList.add('hidden');
-            quizScreen.classList.remove('hidden');
-            currentQuestionIndex = 0;
-            score = 0;
-            loadQuestion();
-        }
+        
+        const detailModal = document.getElementById('detail-modal');
+        const modalStatusTitle = document.getElementById('modal-status-title');
+        const modalNextBtn = document.getElementById('modal-next-btn');
 
         function loadQuestion() {
-            // Reset state for new question
             feedbackText.textContent = '';
             feedbackText.className = 'text-2xl font-bold h-8 mb-4';
-            nextBtn.classList.add('hidden');
             optionsContainer.innerHTML = '';
             
             const currentQuestion = quizData[currentQuestionIndex];
-            
-            // Update Image and Progress with fallback image support
             perfumeImage.src = currentQuestion.image;
-            perfumeImage.onerror = () => { perfumeImage.src = 'https://placehold.co/400x400/ffffff/333333?text=Perfume+Bottle'; };
-            progressText.textContent = `Question ${currentQuestionIndex + 1} / ${quizData.length}`;
+            progressText.textContent = `문제 ${currentQuestionIndex + 1} / ${quizData.length}`;
 
-            // Generate option buttons
             currentQuestion.options.forEach(option => {
                 const button = document.createElement('button');
                 button.className = 'nameplate-btn';
                 button.textContent = option;
-                
-                // Add click event listener for checking the answer
                 button.addEventListener('click', () => handleGuess(option, button));
-                
                 optionsContainer.appendChild(button);
             });
         }
@@ -200,23 +232,23 @@
         function handleGuess(selectedOption, buttonElement) {
             const currentQuestion = quizData[currentQuestionIndex];
             const isCorrect = selectedOption === currentQuestion.answer;
-
-            // Disable all buttons to prevent multiple guesses
             const allButtons = optionsContainer.querySelectorAll('button');
             allButtons.forEach(btn => btn.disabled = true);
 
-            // Apply styles and feedback text based on result
             if (isCorrect) {
-                feedbackText.textContent = 'Correct!';
-                feedbackText.classList.add('text-green-600');
+                feedbackText.textContent = '정답입니다!';
+                feedbackText.className = 'text-2xl font-bold h-8 mb-4 text-green-600';
                 buttonElement.classList.add('correct');
+                modalStatusTitle.textContent = "정답! 상세 정보를 확인하세요.";
+                modalStatusTitle.className = "font-bold text-green-600 text-lg";
                 score++;
             } else {
-                feedbackText.textContent = 'Incorrect!';
-                feedbackText.classList.add('text-red-500');
+                feedbackText.textContent = '오답입니다!';
+                feedbackText.className = 'text-2xl font-bold h-8 mb-4 text-red-500';
                 buttonElement.classList.add('incorrect');
+                modalStatusTitle.textContent = "오답! 상세 정보를 확인하세요.";
+                modalStatusTitle.className = "font-bold text-red-500 text-lg";
                 
-                // Highlight the correct answer to show the user what it was
                 allButtons.forEach(btn => {
                     if (btn.textContent === currentQuestion.answer) {
                         btn.classList.add('correct');
@@ -224,35 +256,67 @@
                 });
             }
 
-            // Show 'Next' button or 'Restart' button if it's the last question
-            if (currentQuestionIndex < quizData.length - 1) {
-                nextBtn.classList.remove('hidden');
-            } else {
-                // End of quiz
-                setTimeout(() => {
-                    feedbackText.textContent = `Quiz Complete! (${score}/${quizData.length} Correct)`;
-                    feedbackText.classList.remove('text-green-600', 'text-red-500');
-                    feedbackText.classList.add('text-blue-600');
-                    restartBtn.classList.remove('hidden');
-                }, 1000);
-            }
+            // 모달에 텍스트 데이터 주입
+            setTimeout(() => {
+                document.getElementById('ui-title').textContent = currentQuestion.details.title;
+                document.getElementById('ui-subtitle').textContent = currentQuestion.details.subtitle;
+                document.getElementById('ui-desc').textContent = currentQuestion.details.desc;
+                document.getElementById('ui-top').textContent = currentQuestion.details.top;
+                document.getElementById('ui-mid').textContent = currentQuestion.details.mid;
+                document.getElementById('ui-base').textContent = currentQuestion.details.base;
+                
+                const accordsContainer = document.getElementById('ui-accords');
+                accordsContainer.innerHTML = '';
+                currentQuestion.details.accords.forEach(accord => {
+                    const span = document.createElement('span');
+                    span.className = "bg-gray-200 text-gray-700 text-xs font-bold px-3 py-1 rounded-full";
+                    span.textContent = accord;
+                    accordsContainer.appendChild(span);
+                });
+                
+                if (currentQuestionIndex === quizData.length - 1) {
+                    modalNextBtn.textContent = "결과 보기";
+                } else {
+                    modalNextBtn.textContent = "다음 ->";
+                }
+                
+                detailModal.classList.remove('hidden');
+            }, 800);
         }
 
-        // Event Listeners
-        startBtn.addEventListener('click', startQuiz);
-
-        nextBtn.addEventListener('click', () => {
-            currentQuestionIndex++;
-            loadQuestion();
+        modalNextBtn.addEventListener('click', () => {
+            detailModal.classList.add('hidden'); 
+            
+            if (currentQuestionIndex < quizData.length - 1) {
+                currentQuestionIndex++;
+                loadQuestion();
+            } else {
+                feedbackText.textContent = `퀴즈 완료! (${score}/${quizData.length} 정답)`;
+                feedbackText.className = 'text-2xl font-bold h-8 mb-4 text-blue-600';
+                restartBtn.classList.remove('hidden');
+            }
         });
 
         restartBtn.addEventListener('click', () => {
             currentQuestionIndex = 0;
             score = 0;
             restartBtn.classList.add('hidden');
-            loadQuestion();
+            
+            quizData.sort(() => Math.random() - 0.5);
+            quizData.forEach(question => {
+                question.options.sort(() => Math.random() - 0.5);
+            });
+
+            loadQuestion(); 
         });
 
+        window.onload = () => {
+            quizData.sort(() => Math.random() - 0.5);
+            quizData.forEach(question => {
+                question.options.sort(() => Math.random() - 0.5);
+            });
+            loadQuestion();
+        };
     </script>
 </body>
 </html>
