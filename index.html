@@ -15,12 +15,11 @@
 
         .polaroid-frame {
             background-color: #fcfcfc;
-            padding: 16px;
+            /* padding: 16px; <-- 이 줄을 지워주세요! */
             box-shadow: 2px 4px 10px rgba(0, 0, 0, 0.08);
             border: 1px solid #e5e7eb;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            position: relative;
+            overflow: hidden; /* 추가: 사진이 액자 밖으로 넘치지 않게 잘라줌 */
         }
 
         .nameplate-btn {
@@ -105,7 +104,7 @@
             <h1 class="text-2xl font-bold text-gray-800 tracking-tight">The Art of Scent : TAMBURINS</h1>
         </div>
         <div class="polaroid-frame mx-auto w-4/5 max-w-[280px] aspect-square mb-10 bg-white">
-            <img src="0.tamburins.png" alt="TAMBURINS Logo" class="w-full h-full object-contain p-4 mix-blend-multiply">
+            <img src="0.tamburins.png" alt="TAMBURINS Logo" class="w-full h-full object-contain p-4">
         </div>
         <button id="start-btn" class="w-full max-w-[200px] bg-gray-900 hover:bg-black text-white font-bold py-3 px-6 rounded-full shadow-lg transition-transform active:scale-95">
             Start
@@ -116,17 +115,15 @@
     <div id="quiz-screen" class="hidden w-full max-w-md">
         <div class="text-center mb-6">
             <h1 class="text-2xl font-bold text-gray-800 tracking-tight">The Art of Scent : TAMBURINS</h1>
-            <p id="progress-text" class="text-gray-600 mt-1 text-sm font-medium">Note 1 / 5</p>
+            <p id="progress-text" class="text-gray-600 mt-1 text-sm font-medium">Note 1 / 25</p>
         </div>
 
-        <div class="polaroid-frame relative mx-auto w-4/5 max-w-[280px] aspect-square mb-10 bg-white">
-            <!-- 우상단 타이틀 라벨 (사진 위로 올라오도록 z-10 및 위치 미세조정) -->
-            <span id="quiz-image-title" class="absolute top-5 right-5 z-10 text-[10px] font-bold text-gray-500 bg-white/80 backdrop-blur-sm px-2 py-1 rounded shadow-sm tracking-wider uppercase pointer-events-none"></span>
+        <div class="polaroid-frame mx-auto w-4/5 max-w-[280px] aspect-square mb-10 bg-white">
+            <!-- 우상단 라벨 -->
+            <span id="quiz-image-title" class="absolute top-3 right-3 z-10 text-[10px] font-bold text-gray-500 bg-white/90 backdrop-blur-sm px-2 py-1 rounded shadow-sm tracking-wider uppercase pointer-events-none"></span>
             
-            <!-- 사진이 꽉 차고 넘치지 않게 가둬주는 내부 컨테이너 -->
-            <div class="w-full h-full overflow-hidden relative rounded-sm bg-[#f2f4ee]">
-                <img id="perfume-image" src="" alt="Perfume" class="w-full h-full object-cover transition-transform duration-300 hover:scale-105">
-            </div>
+            <!-- 사진 꽉 채우기 -->
+            <img id="perfume-image" src="" alt="Perfume" class="w-full h-full object-cover">
         </div>
 
         <div id="options-container" class="grid grid-cols-2 gap-x-4 gap-y-5">
