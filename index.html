@@ -150,64 +150,52 @@
     </div>
 
     <script>
-        const quizData = [
+        // 1. 제품 데이터 구조화 (정답/보기를 제거하고 notes 배열 추가)
+        const productData = [
             {
                 image: "01.chamo.png", 
-                options: ["Chamomile", "Bergamot", "White Tulip", "Oud", "White Champagne", "Raspberry"],
-                answer: "Chamomile",
-                details: {
-                    title: "CHAMO", subtitle: "카모",
-                    desc: "꿀처럼 진득하고 달콤한 카모마일과 쌉쌀한 클라리세이지의 허벌한 향취가 오묘한 조화를 이루어 중독성 있는 향을 선사합니다. 자칫 차갑게 느껴질 수 있는 축축한 이끼의 느낌을 우아하고 부드러운 나무결의 블론드우드와 따뜻한 머스크로 감싸주어 당신의 지친 마음에 특별하고 작은 위안을 선물합니다.",
-                    top: "Chamomile, Clarysage", mid: "Cypriol, Water", base: "Blond wood, Amber, Musk",
-                    accords: ["Herbal", "Musk"]
-                }
+                title: "CHAMO", subtitle: "카모",
+                desc: "꿀처럼 진득하고 달콤한 카모마일과 쌉쌀한 클라리세이지의 허벌한 향취가 오묘한 조화를 이루어 중독성 있는 향을 선사합니다. 자칫 차갑게 느껴질 수 있는 축축한 이끼의 느낌을 우아하고 부드러운 나무결의 블론드우드와 따뜻한 머스크로 감싸주어 당신의 지친 마음에 특별하고 작은 위안을 선물합니다.",
+                top: "Chamomile, Clarysage", mid: "Cypriol, Water", base: "Blond wood, Amber, Musk",
+                accords: ["Herbal", "Musk"],
+                // 향수 문제 출제 풀 (이 중에서 랜덤으로 1개가 정답으로 지정됨)
+                notes: ["Chamomile", "Clarysage", "Cypriol", "Water", "Blond wood", "Amber", "Musk"]
             },
             {
                 image: "02.berga_sandal.png",
-                options: ["Bergamot", "Clarysage", "Green Apple", "Lavender", "Black Tea", "Peach"],
-                answer: "Bergamot",
-                details: {
-                    title: "BERGA SANDAL", subtitle: "버가샌달",
-                    desc: "지중해의 푸릇한 기운을 받고 자란 베르가못의 청량한 향에 라임, 카다멈의 신선하고 쌉싸래한 향이 더해져 따사로운 햇빛 아래 서서히 익어가는 청귤을 떠오르게 합니다. 뒤이어 샌달우드가 그려내는 부드러운 곡선의 잔향은 주위에 은은하게 머물며 햇살 가득한 여름날의 따뜻한 기억을 그려냅니다.",
-                    top: "Bergamot, Lime, Cardamom", mid: "Cedar atlas, Cypriol, Cucumber", base: "Sandalwood, Leather, Amyris",
-                    accords: ["Citrus", "Woody"]
-                }
+                title: "BERGA SANDAL", subtitle: "버가샌달",
+                desc: "지중해의 푸릇한 기운을 받고 자란 베르가못의 청량한 향에 라임, 카다멈의 신선하고 쌉싸래한 향이 더해져 따사로운 햇빛 아래 서서히 익어가는 청귤을 떠오르게 합니다. 뒤이어 샌달우드가 그려내는 부드러운 곡선의 잔향은 주위에 은은하게 머물며 햇살 가득한 여름날의 따뜻한 기억을 그려냅니다.",
+                top: "Bergamot, Lime, Cardamom", mid: "Cedar atlas, Cypriol, Cucumber", base: "Sandalwood, Leather, Amyris",
+                accords: ["Citrus", "Woody"],
+                notes: ["Bergamot", "Lime", "Cardamom", "Cedar atlas", "Cypriol", "Cucumber", "Sandalwood", "Leather", "Amyris"]
             },
             {
                 image: "03.lale.png",
-                options: ["White Tulip", "Chamomile", "Lime", "Oud", "White Champagne", "Cardamom"],
-                answer: "White Tulip",
-                details: {
-                    title: "LALE", subtitle: "라레",
-                    desc: "튤립의 첫 이름을 의미하는 라레는 새벽의 이슬을 머금은 청초한 푸른 사과를 한 입 베어 문 듯 청량하면서도 절제된 달콤함을 시작으로, 잔잔한 그린 플로럴의 향취가 화이트 튤립의 싱그러운 푸른 잎사귀를 떠오르게 합니다. 진득한 샌달우드에 스파이시한 무드의 레더와 미모사가 더해져 깊고 은은한 여운을 남깁니다.",
-                    top: "Green Apple, Eucalyptus, Bergamot", mid: "White Tulip, Mimosa, Marine", base: "Sandalwood, Leather, Musk, Coconut",
-                    accords: ["Green", "Floral"]
-                }
+                title: "LALE", subtitle: "라레",
+                desc: "튤립의 첫 이름을 의미하는 라레는 새벽의 이슬을 머금은 청초한 푸른 사과를 한 입 베어 문 듯 청량하면서도 절제된 달콤함을 시작으로, 잔잔한 그린 플로럴의 향취가 화이트 튤립의 싱그러운 푸른 잎사귀를 떠오르게 합니다. 진득한 샌달우드에 스파이시한 무드의 레더와 미모사가 더해져 깊고 은은한 여운을 남깁니다.",
+                top: "Green Apple, Eucalyptus, Bergamot", mid: "White Tulip, Mimosa, Marine", base: "Sandalwood, Leather, Musk, Coconut",
+                accords: ["Green", "Floral"],
+                notes: ["Green Apple", "Eucalyptus", "Bergamot", "White Tulip", "Mimosa", "Marine", "Sandalwood", "Leather", "Musk", "Coconut"]
             },
             {
                 image: "04.unknown_oud.png",
-                options: ["Oud", "Bergamot", "Green Apple", "White Champagne", "Black Tea", "Water"],
-                answer: "Oud",
-                details: {
-                    title: "UNKNOWN OUD", subtitle: "언노운오드",
-                    desc: "유칼립투스의 상쾌함으로 시작한 향은 진득한 라즈베리 시럽을 한방울 떨어뜨린 듯한 달콤함이 함께 어우러져 더욱 풍성해집니다. 묵직한 침향나무에서 오는 잔향의 젖은 흙과 그을린 나무냄새는 깊은 숲속에서 홀로 타오르고 남은 불의 흔적을 떠오르게 합니다.",
-                    top: "Eucalyptus, Lavender", mid: "Raspberry, Leather", base: "Oud(Agarwood), Patchouli, Amber",
-                    accords: ["Balsamic", "Woody"]
-                }
+                title: "UNKNOWN OUD", subtitle: "언노운오드",
+                desc: "유칼립투스의 상쾌함으로 시작한 향은 진득한 라즈베리 시럽을 한방울 떨어뜨린 듯한 달콤함이 함께 어우러져 더욱 풍성해집니다. 묵직한 침향나무에서 오는 잔향의 젖은 흙과 그을린 나무냄새는 깊은 숲속에서 홀로 타오르고 남은 불의 흔적을 떠오르게 합니다.",
+                top: "Eucalyptus, Lavender", mid: "Raspberry, Leather", base: "Oud(Agarwood), Patchouli, Amber",
+                accords: ["Balsamic", "Woody"],
+                notes: ["Eucalyptus", "Lavender", "Raspberry", "Leather", "Oud(Agarwood)", "Patchouli", "Amber"]
             },
             {
                 image: "05.white_darjeeling.png",
-                options: ["White Champagne", "Chamomile", "Lime", "White Tulip", "Raspberry", "Eucalyptus"],
-                answer: "White Champagne",
-                details: {
-                    title: "WHITE DARJEELING", subtitle: "화이트다즐링",
-                    desc: "화이트 샴페인의 섬세한 거품과 달달한 과일향에 쌉쌀한 다즐링 차 향이 풍성하고 조화롭게 어우러져 찻잔 속에서 추는 우아한 향의 춤의 향연을 선사합니다. 코끝에서부터 전해지는 크리미한 머스크와 샌달우드가 부드러운 잔향을 오래도록 느끼게 해줍니다.",
-                    top: "White Champagne", mid: "Black Tea, Peach", base: "Musk, Sandalwood",
-                    accords: ["Fruity", "Tea"]
-                }
+                title: "WHITE DARJEELING", subtitle: "화이트다즐링",
+                desc: "화이트 샴페인의 섬세한 거품과 달달한 과일향에 쌉쌀한 다즐링 차 향이 풍성하고 조화롭게 어우러져 찻잔 속에서 추는 우아한 향의 춤의 향연을 선사합니다. 코끝에서부터 전해지는 크리미한 머스크와 샌달우드가 부드러운 잔향을 오래도록 느끼게 해줍니다.",
+                top: "White Champagne", mid: "Black Tea, Peach", base: "Musk, Sandalwood",
+                accords: ["Fruity", "Tea"],
+                notes: ["White Champagne", "Black Tea", "Peach", "Musk", "Sandalwood"]
             }
         ];
 
+        let currentQuizQueue = [];
         let currentQuestionIndex = 0;
         let score = 0;
 
@@ -219,21 +207,42 @@
         const feedbackText = document.getElementById('feedback-text');
         const restartBtn = document.getElementById('restart-btn');
         const progressText = document.getElementById('progress-text');
-        
+
         const detailModal = document.getElementById('detail-modal');
         const modalStatusTitle = document.getElementById('modal-status-title');
         const modalNextBtn = document.getElementById('modal-next-btn');
 
-        // 시작 버튼 클릭 시
+        // 전체 향료 추출 (중복 제거)
+        const allAvailableNotes = [...new Set(productData.flatMap(p => p.notes))];
+
+        // 2. 퀴즈 생성 로직: 매번 랜덤하게 정답과 보기를 생성
+        function generateQuiz() {
+            currentQuizQueue = productData.map(product => {
+                // 정답 랜덤 추출 (현재 향수의 notes 중 하나)
+                const randomAnswer = product.notes[Math.floor(Math.random() * product.notes.length)];
+                
+                // 오답 5개 추출 (전체 향료 중 현재 향수에 포함되지 않은 것들)
+                const wrongNotes = allAvailableNotes
+                    .filter(note => !product.notes.includes(note)) // 현재 향수 향료 제외
+                    .sort(() => Math.random() - 0.5)               // 셔플
+                    .slice(0, 5);                                  // 5개 뽑기
+                
+                // 보기 6개 생성 및 셔플
+                const options = [randomAnswer, ...wrongNotes].sort(() => Math.random() - 0.5);
+
+                // 출제용 객체 리턴
+                return {
+                    ...product,
+                    answer: randomAnswer,
+                    options: options
+                };
+            }).sort(() => Math.random() - 0.5); // 향수 출제 순서도 셔플
+        }
+
         startBtn.addEventListener('click', () => {
             startScreen.classList.add('hidden');
             quizScreen.classList.remove('hidden');
-            
-            // 문제와 보기 섞고 시작
-            quizData.sort(() => Math.random() - 0.5);
-            quizData.forEach(question => {
-                question.options.sort(() => Math.random() - 0.5);
-            });
+            generateQuiz();
             loadQuestion();
         });
 
@@ -242,9 +251,9 @@
             feedbackText.className = 'text-2xl font-bold h-8 mb-4';
             optionsContainer.innerHTML = '';
             
-            const currentQuestion = quizData[currentQuestionIndex];
+            const currentQuestion = currentQuizQueue[currentQuestionIndex];
             perfumeImage.src = currentQuestion.image;
-            progressText.textContent = `Note ${currentQuestionIndex + 1} / ${quizData.length}`;
+            progressText.textContent = `Note ${currentQuestionIndex + 1} / ${currentQuizQueue.length}`;
 
             currentQuestion.options.forEach(option => {
                 const button = document.createElement('button');
@@ -256,7 +265,7 @@
         }
 
         function handleGuess(selectedOption, buttonElement) {
-            const currentQuestion = quizData[currentQuestionIndex];
+            const currentQuestion = currentQuizQueue[currentQuestionIndex];
             const isCorrect = selectedOption === currentQuestion.answer;
             const allButtons = optionsContainer.querySelectorAll('button');
             allButtons.forEach(btn => btn.disabled = true);
@@ -275,6 +284,7 @@
                 modalStatusTitle.textContent = "Incorrect! Review the details.";
                 modalStatusTitle.className = "font-bold text-red-500 text-lg";
                 
+                // 오답일 경우 정답 표시
                 allButtons.forEach(btn => {
                     if (btn.textContent === currentQuestion.answer) {
                         btn.classList.add('correct');
@@ -282,24 +292,25 @@
                 });
             }
 
+            // 모달 데이터 채우기
             setTimeout(() => {
-                document.getElementById('ui-title').textContent = currentQuestion.details.title;
-                document.getElementById('ui-subtitle').textContent = currentQuestion.details.subtitle;
-                document.getElementById('ui-desc').textContent = currentQuestion.details.desc;
-                document.getElementById('ui-top').textContent = currentQuestion.details.top;
-                document.getElementById('ui-mid').textContent = currentQuestion.details.mid;
-                document.getElementById('ui-base').textContent = currentQuestion.details.base;
+                document.getElementById('ui-title').textContent = currentQuestion.title;
+                document.getElementById('ui-subtitle').textContent = currentQuestion.subtitle;
+                document.getElementById('ui-desc').textContent = currentQuestion.desc;
+                document.getElementById('ui-top').textContent = currentQuestion.top;
+                document.getElementById('ui-mid').textContent = currentQuestion.mid;
+                document.getElementById('ui-base').textContent = currentQuestion.base;
                 
                 const accordsContainer = document.getElementById('ui-accords');
                 accordsContainer.innerHTML = '';
-                currentQuestion.details.accords.forEach(accord => {
+                currentQuestion.accords.forEach(accord => {
                     const span = document.createElement('span');
                     span.className = "bg-gray-200 text-gray-700 text-xs font-bold px-3 py-1 rounded-full";
                     span.textContent = accord;
                     accordsContainer.appendChild(span);
                 });
                 
-                if (currentQuestionIndex === quizData.length - 1) {
+                if (currentQuestionIndex === currentQuizQueue.length - 1) {
                     modalNextBtn.textContent = "Result";
                 } else {
                     modalNextBtn.textContent = "Next";
@@ -312,11 +323,11 @@
         modalNextBtn.addEventListener('click', () => {
             detailModal.classList.add('hidden'); 
             
-            if (currentQuestionIndex < quizData.length - 1) {
+            if (currentQuestionIndex < currentQuizQueue.length - 1) {
                 currentQuestionIndex++;
                 loadQuestion();
             } else {
-                feedbackText.textContent = `Final Score: ${score} / ${quizData.length}`;
+                feedbackText.textContent = `Final Score: ${score} / ${currentQuizQueue.length}`;
                 feedbackText.className = 'text-2xl font-bold h-8 mb-4 text-blue-600';
                 restartBtn.classList.remove('hidden');
             }
@@ -326,12 +337,7 @@
             currentQuestionIndex = 0;
             score = 0;
             restartBtn.classList.add('hidden');
-            
-            quizData.sort(() => Math.random() - 0.5);
-            quizData.forEach(question => {
-                question.options.sort(() => Math.random() - 0.5);
-            });
-
+            generateQuiz(); // 퀴즈 다시 생성
             loadQuestion(); 
         });
     </script>
