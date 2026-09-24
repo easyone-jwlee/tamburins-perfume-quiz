@@ -120,10 +120,13 @@
         </div>
 
         <div class="polaroid-frame relative mx-auto w-4/5 max-w-[280px] aspect-square mb-10 bg-white">
-            <!-- 추가된 우상단 타이틀 라벨 -->
-            <span id="quiz-image-title" class="absolute top-3 right-3 text-[10px] font-bold text-gray-400 bg-white/70 backdrop-blur-sm px-2 py-1 rounded shadow-sm tracking-wider uppercase pointer-events-none"></span>
+            <!-- 우상단 타이틀 라벨 (사진 위로 올라오도록 z-10 및 위치 미세조정) -->
+            <span id="quiz-image-title" class="absolute top-5 right-5 z-10 text-[10px] font-bold text-gray-500 bg-white/80 backdrop-blur-sm px-2 py-1 rounded shadow-sm tracking-wider uppercase pointer-events-none"></span>
             
-            <img id="perfume-image" src="" alt="Perfume" class="w-full h-full object-cover rounded-sm transition-transform duration-300 hover:scale-105">
+            <!-- 사진이 꽉 차고 넘치지 않게 가둬주는 내부 컨테이너 -->
+            <div class="w-full h-full overflow-hidden relative rounded-sm bg-[#f2f4ee]">
+                <img id="perfume-image" src="" alt="Perfume" class="w-full h-full object-cover transition-transform duration-300 hover:scale-105">
+            </div>
         </div>
 
         <div id="options-container" class="grid grid-cols-2 gap-x-4 gap-y-5">
