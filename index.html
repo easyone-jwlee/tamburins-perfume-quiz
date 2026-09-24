@@ -119,7 +119,10 @@
             <p id="progress-text" class="text-gray-600 mt-1 text-sm font-medium">Note 1 / 5</p>
         </div>
 
-        <div class="polaroid-frame mx-auto w-4/5 max-w-[280px] aspect-square mb-10 bg-white">
+        <div class="polaroid-frame relative mx-auto w-4/5 max-w-[280px] aspect-square mb-10 bg-white">
+            <!-- 추가된 우상단 타이틀 라벨 -->
+            <span id="quiz-image-title" class="absolute top-3 right-3 text-[10px] font-bold text-gray-400 bg-white/70 backdrop-blur-sm px-2 py-1 rounded shadow-sm tracking-wider uppercase pointer-events-none"></span>
+            
             <img id="perfume-image" src="" alt="Perfume" class="w-full h-full object-contain">
         </div>
 
@@ -439,6 +442,9 @@
             const currentQuestion = currentQuizQueue[currentQuestionIndex];
             perfumeImage.src = currentQuestion.image;
             progressText.textContent = `Note ${currentQuestionIndex + 1} / ${currentQuizQueue.length}`;
+            
+            // 이 줄을 추가해 주세요! (우상단에 제품 타이틀 표시)
+            document.getElementById('quiz-image-title').textContent = currentQuestion.title;
 
             currentQuestion.options.forEach(option => {
                 const button = document.createElement('button');
